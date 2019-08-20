@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "891582455795",
+    "firebase_url": "https://collect-b94fd.firebaseio.com",
+    "project_id": "collect-b94fd",
+    "storage_bucket": "collect-b94fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891582455795:android:5e4532d0a5ae8b83",
+        "android_client_info": {
+          "package_name": "com.android.collect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891582455795-d1k7hdsricr0od28e2vv27jnrsthmbki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABG9v9XzbtHqxZaEWxDCmEMGXmmWvlzy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891582455795-d1k7hdsricr0od28e2vv27jnrsthmbki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
