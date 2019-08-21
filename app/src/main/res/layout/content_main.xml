@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,4 +9,59 @@
         tools:showIn="@layout/app_bar_main"
         tools:context=".MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/main_iv_profile"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_margin="15dp"
+            android:src="@drawable/profile"/>
+
+    <TextView
+            android:id="@+id/main_tv_cafename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/main_iv_profile"
+            android:text="Ironman Cafe"
+            android:layout_marginTop="25dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+    />
+
+    <TextView
+            android:id="@+id/main_tv_addrescafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_tv_cafename"
+            android:text="Jl. Soekarno Hatta 16B kv 06"
+            android:layout_toRightOf="@id/main_iv_profile"
+            android:textSize="10sp"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_iv_profile"
+            android:text="History"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimaryDark"
+    />
+
+    <TextView
+            android:id="@+id/span_spacer"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/colorAccent"
+            android:layout_below="@id/main_iv_profile"
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/span_spacer"
+    />
+
+
+</RelativeLayout>
