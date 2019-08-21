@@ -1,23 +1,34 @@
 package com.android.collect
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.android.collect.data.Pref
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+    lateinit var dbRef: DatabaseReference
+    lateinit var pref: Pref
+    private lateinit var fAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        fAuth = FirebaseAuth.getInstance()
+        pref = Pref(this)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -26,6 +37,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+            .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    tv_nama_user.text = p0.value.toString()
+                }
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+            .child("profile").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    Glide.with(this@MainActivity).load(p0.value.toString())
+                        .centerCrop()
+                        .error(R.drawable.ic_launcher_background)
+                        .into(imageViewProfileDrawer)
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                }
+            })
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
 
@@ -62,14 +93,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
+            R.id.nav_profile-> {
+                startActivity(Intent(this,ProfileActivity::class.java))
             }
-            R.id.nav_gallery -> {
+            R.id.nav_saldo-> {
 
             }
-            R.id.nav_send -> {
-
+            R.id.nav_logout -> {
+                pref.setStatus(false)
+                fAuth.signOut()
+                startActivity(
+                    Intent(
+                        this, Login::class.java
+                    )
+                )
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
