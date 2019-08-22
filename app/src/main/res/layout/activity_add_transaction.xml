@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddTransaction">
+
+    <LinearLayout
+            android:id="@+id/linearLayoutMain"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="40dp"
+            android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/profile"/>
+
+        <TextView
+                android:id="@+id/transaction_tv_cafename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ironman Cafe"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"/>
+
+        <TextView
+                android:id="@+id/transaction_tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jl. Soekarno Hatta 16B kv 06"
+                android:textSize="14sp"
+                android:textAlignment="center"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical|end">
+
+                <Button
+                        android:id="@+id/add_button"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:background="@color/colorPrimary"
+                        android:text="+"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp"/>
+
+                <Button
+                        android:id="@+id/remove_button"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:background="@color/colorPrimary"
+                        android:text="-"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp"
+                        android:layout_margin="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/linearLayoutDecisions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                        android:paddingStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date : "/>
+
+                    <TextView
+                            android:id="@+id/transaction_tv_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="21 Agustus 2019"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:paddingStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kasir : "/>
+
+                    <TextView
+                            android:id="@+id/transaction_tv_kasir"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Herlina"/>
+
+                </LinearLayout>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <EditText
+                            android:id="@+id/transaction_et_order_name"
+                            android:layout_width="300dp"
+                            android:layout_height="45dp"
+                            android:gravity="center"
+                            android:hint="Order"/>
+
+                    <EditText
+                            android:id="@+id/transaction_et_order_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center"
+                            android:hint="Qty"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:id="@+id/btn_proccess"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Proccess"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+</RelativeLayout>
