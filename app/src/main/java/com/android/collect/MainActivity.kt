@@ -3,7 +3,6 @@ package com.android.collect
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -15,15 +14,16 @@ import com.android.collect.data.Pref
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var dbRef: DatabaseReference
     lateinit var pref: Pref
     private lateinit var fAuth: FirebaseAuth
+    var idToko = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            dialogInputId()
         }
         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
             .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -58,6 +57,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 override fun onCancelled(p0: DatabaseError) {
                 }
             })
+        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+            .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    idToko = p0.value.toString()
+                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                main_tv_cafename.text = p0.child("namaToko").value.toString()
+                                main_tv_addrescafe.text = p0.child("alamat").value.toString()
+                            }
+
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                        })
+//                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
+//                        .child("alamat").addListenerForSingleValueEvent(object : ValueEventListener {
+//                            override fun onDataChange(p0: DataSnapshot) {
+//                                main_tv_addrescafe.text = p0.value.toString()
+//                            }
+//                            override fun onCancelled(p0: DatabaseError) {
+//
+//                            }
+//                        })
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
 
@@ -115,7 +145,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun dialogInputId(view: View) {
+    fun dialogInputId() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         builder.setTitle("With EditText")

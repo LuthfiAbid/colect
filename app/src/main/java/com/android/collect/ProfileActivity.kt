@@ -1,22 +1,23 @@
 package com.android.collect
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.android.collect.data.Pref
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_profile.*
-import java.util.ArrayList
 
 class ProfileActivity : AppCompatActivity() {
     lateinit var dbRef: DatabaseReference
     lateinit var pref: Pref
     private lateinit var fAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
         fAuth = FirebaseAuth.getInstance()
         pref = Pref(this)
         setSupportActionBar(toolbar)

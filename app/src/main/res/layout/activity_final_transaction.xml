@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddTransaction">
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="40dp"
+            android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/profile"/>
+
+        <TextView
+                android:id="@+id/recipt_tv_cafename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ironman Cafe"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"/>
+
+        <TextView
+                android:id="@+id/recipt_tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jl. Soekarno Hatta 16B kv 06"
+                android:textSize="14sp"
+                android:textAlignment="center"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:paddingStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date : "/>
+
+                <TextView
+                        android:id="@+id/recipt_tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21 Agustus 2019"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kasir : "/>
+
+                <TextView
+                        android:id="@+id/recipt_tv_kasir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Herlina"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/span_spacer1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/relative1"
+                android:background="@android:color/darker_gray"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/span_spacer1"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/order_name"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:text="Order"
+                        android:textSize="20dp"/>
+
+                <TextView
+                        android:id="@+id/order_price"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/order_name"
+                        android:text="Qty"
+                        android:textSize="20dp"/>
+
+                <TextView
+                        android:id="@+id/order_qty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/order_price"
+                        android:text="Qty"
+                        android:textSize="20dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

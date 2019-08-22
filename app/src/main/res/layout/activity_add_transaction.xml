@@ -40,6 +40,7 @@
                 android:textAlignment="center"/>
 
         <RelativeLayout
+                android:id="@+id/relative1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -55,31 +56,22 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:background="@color/colorPrimary"
+                        android:layout_margin="10dp"
                         android:text="+"
                         android:textColor="@android:color/background_light"
                         android:textSize="18sp"/>
-
-                <Button
-                        android:id="@+id/remove_button"
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:background="@color/colorPrimary"
-                        android:text="-"
-                        android:textColor="@android:color/background_light"
-                        android:textSize="18sp"
-                        android:layout_margin="10dp"/>
             </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/linearLayoutDecisions"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
                 <LinearLayout
                         android:paddingStart="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -98,7 +90,7 @@
 
                 <LinearLayout
                         android:paddingStart="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -115,51 +107,38 @@
 
                 </LinearLayout>
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@android:color/darker_gray"/>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                    <EditText
-                            android:id="@+id/transaction_et_order_name"
-                            android:layout_width="300dp"
-                            android:layout_height="45dp"
-                            android:gravity="center"
-                            android:hint="Order"/>
-
-                    <EditText
-                            android:id="@+id/transaction_et_order_qty"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:gravity="center"
-                            android:hint="Qty"/>
-
-                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <TextView
+                android:id="@+id/span_spacer1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/relative1"
+                android:background="@android:color/darker_gray"/>
 
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <Button
-                android:id="@+id/btn_proccess"
-                style="?android:attr/borderlessButtonStyle"
+        <LinearLayout
+                android:id="@+id/linearlayout_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="Proccess"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"
-                android:layout_alignParentBottom="true"/>
-    </RelativeLayout>
+                android:layout_below="@+id/span_spacer1"
+                android:orientation="vertical">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/btn_proccess"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="Proccess"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -43,6 +43,7 @@ class Login : AppCompatActivity() {
             )
             finish()
         } else {
+
         }
         tv_signup.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -51,20 +52,47 @@ class Login : AppCompatActivity() {
         btn_login.setOnClickListener {
             var email = et_email_login.text.toString()
             var password = et_password_login.text.toString()
+
             if (email.isNotEmpty() || password.isNotEmpty()) {
                 pref.setStatus(true)
+
                 fAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
+
                         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-                            .child("nama")
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                            .child("role").addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    val role = p0.value.toString()
+
+                                    if (role == "kasir") {
+                                        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+                                            .child("nama")
+                                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                                override fun onCancelled(p0: DatabaseError) {
+
+                                                }
+
+                                                override fun onDataChange(p0: DataSnapshot) {
+                                                    val user = fAuth.currentUser
+                                                    updateUI(user)
+                                                    Toast.makeText(
+                                                        applicationContext,
+                                                        "Welcome ${p0.value.toString()}!",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            })
+                                    } else {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Username atau Password salah!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+
                                 override fun onCancelled(p0: DatabaseError) {
 
-                                }
-                                override fun onDataChange(p0: DataSnapshot) {
-                                    val user = fAuth.currentUser
-                                    updateUI(user)
-                                    Toast.makeText(applicationContext,"Welcome ${p0.value.toString()}!",Toast.LENGTH_SHORT).show()
                                 }
                             })
                     }.addOnFailureListener {

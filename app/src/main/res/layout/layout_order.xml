@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/transaction_et_order_name"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:hint="Order"/>
+        <EditText
+                android:id="@+id/transaction_et_order_harga"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:hint="Order"/>
+
+        <EditText
+                android:id="@+id/transaction_et_order_qty"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:hint="Qty"/>
+
+    </LinearLayout>
+
+</LinearLayout>
