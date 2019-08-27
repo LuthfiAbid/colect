@@ -9,6 +9,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.1"
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.android.collect"
         minSdkVersion 26
         targetSdkVersion 28
@@ -39,6 +40,13 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.xwray:groupie:2.1.0'
+
+    //scan barcode
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+    implementation 'com.android.support:multidex:1.0.3'
+//    implementation 'me.dm7.barcodescanner:zbar:1.9.8'
+//    implementation 'com.github.kenglxn.QRGen:android:2.3.0'
 
     //implementasi firebase core & auth
     implementation 'com.google.firebase:firebase-core:16.0.8'

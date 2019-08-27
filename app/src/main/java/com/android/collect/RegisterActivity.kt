@@ -140,6 +140,7 @@ class RegisterActivity : AppCompatActivity() {
                 dbRef.child("/email").setValue(email)
                 dbRef.child("/password").setValue(password)
                 dbRef.child("/phone").setValue(nomor)
+                dbRef.child("/role").setValue("user")
                 dbRef.child("/profile").setValue(it.toString())
             }
             Toast.makeText(

@@ -11,6 +11,7 @@
             android:layout_marginBottom="2dp">
 
         <TextView
+                android:id="@+id/card_tv_toko"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Starbucks"
@@ -21,6 +22,7 @@
         />
 
         <TextView
+                android:id="@+id/card_tv_tanggal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="17 Agustus 2019"
