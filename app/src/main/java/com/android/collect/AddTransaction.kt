@@ -1,6 +1,7 @@
 package com.android.collect
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class AddTransaction : AppCompatActivity() {
     var idKasir = ""
     var dateOrder = ""
     var cashback = ""
+    var idToko = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,28 @@ class AddTransaction : AppCompatActivity() {
         add_button.setOnClickListener {
             Add_Line()
         }
+
+        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+            .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    idToko = p0.value.toString()
+                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                transaction_tv_cafename.text = p0.child("namaToko").value.toString()
+                                transaction_tv_address.text = p0.child("alamat").value.toString()
+                            }
+
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                        })
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
 
         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
             .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -87,11 +111,6 @@ class AddTransaction : AppCompatActivity() {
             options.add(map)
         }
 
-//        for (option in options) {
-//            option.get("price")
-//        }
-
-
         dbRef = FirebaseDatabase.getInstance().getReference("dataOrder/$idUser")
 
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -103,22 +122,25 @@ class AddTransaction : AppCompatActivity() {
                         true
                     }
                 }
-                dbRef.child("/$i/idKasir").setValue(idKasir)
+                dbRef.child("/$i/namaKasir").setValue(idKasir)
                 dbRef.child("/$i/idUser").setValue(idUser)
                 dbRef.child("/$i/tanggal").setValue(dateOrder)
                 dbRef.child("/$i/cashback").setValue(cashback)
                 dbRef.child("/$i/detailOrder").setValue(options)
                 dbRef.push()
+
+                val intent = Intent(this@AddTransaction, FinalTransaction::class.java)
+                intent.putExtra("idTransaction", i)
+                intent.putExtra("idUser", idUser)
+                intent.putExtra("idToko", idToko)
+                startActivity(intent)
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Toast.makeText(this@AddTransaction, "Database Error!!", Toast.LENGTH_SHORT).show()
             }
 
         })
-
-//        dbRef.child("/total").setValue(password)
-
 
         Toast.makeText(this, options.get(0).get("order"), Toast.LENGTH_SHORT).show()
     }

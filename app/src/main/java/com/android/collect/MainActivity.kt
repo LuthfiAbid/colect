@@ -72,15 +72,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                             }
                         })
-//                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
-//                        .child("alamat").addListenerForSingleValueEvent(object : ValueEventListener {
-//                            override fun onDataChange(p0: DataSnapshot) {
-//                                main_tv_addrescafe.text = p0.value.toString()
-//                            }
-//                            override fun onCancelled(p0: DatabaseError) {
-//
-//                            }
-//                        })
                 }
 
                 override fun onCancelled(p0: DatabaseError) {

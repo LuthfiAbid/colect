@@ -6,6 +6,13 @@
         android:layout_height="match_parent"
         tools:context=".AddTransaction">
 
+    <ImageView
+            android:id="@+id/back_btn"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -115,7 +122,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/order_name"
-                        android:text="Qty"
+                        android:text="Price"
                         android:textSize="20dp"/>
 
                 <TextView
@@ -133,7 +140,83 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_view_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"/>
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total : "
+                    android:layout_marginStart="170dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="18sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="600000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CashBack : "
+                    android:layout_marginStart="170dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="18sp"/>
+
+            <TextView
+                    android:id="@+id/recipt_tv_cashback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thanks For Coming"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+
+            <TextView
+                    android:id="@+id/recipt_tv_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Abid"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
         </LinearLayout>
 
