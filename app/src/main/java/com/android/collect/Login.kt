@@ -58,10 +58,10 @@ class Login : AppCompatActivity() {
 
                 fAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
-                        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+                        FirebaseDatabase.getInstance().getReference("dataUser/dataAuth/${fAuth.uid}")
                             .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onCancelled(p0: DatabaseError) {
-                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                    
                                 }
 
                                 override fun onDataChange(p0: DataSnapshot) {
@@ -83,6 +83,24 @@ class Login : AppCompatActivity() {
                                                             override fun onDataChange(p0: DataSnapshot) {
                                                                 val user = fAuth.currentUser
                                                                 updateUI(user)
+                                                                Toast.makeText(
+                                                                    applicationContext,
+                                                                    "Welcome ${p0.value.toString()}!",
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
+                                                            }
+                                                        })
+                                                } else if (role == "user") {
+                                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                                                        .child("nama")
+                                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                                            override fun onCancelled(p0: DatabaseError) {
+
+                                                            }
+
+                                                            override fun onDataChange(p0: DataSnapshot) {
+                                                                val user = fAuth.currentUser
+                                                                updateUIUser(user)
                                                                 Toast.makeText(
                                                                     applicationContext,
                                                                     "Welcome ${p0.value.toString()}!",
@@ -127,6 +145,15 @@ class Login : AppCompatActivity() {
         if (user != null) {
             pref.saveUID(user.uid) //save uid sharedpreferences
             startActivity(Intent(this, MainActivity::class.java))
+        } else {
+            Log.e("TAG_ERROR", "user tidak ada")
+        }
+    }
+
+    fun updateUIUser(user: FirebaseUser?) {
+        if (user != null) {
+            pref.saveUID(user.uid) //save uid sharedpreferences
+            startActivity(Intent(this, MainUserActivity::class.java))
         } else {
             Log.e("TAG_ERROR", "user tidak ada")
         }

@@ -58,14 +58,28 @@ class AddTransaction : AppCompatActivity() {
         }
 
         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-            .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
+            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
                 override fun onDataChange(p0: DataSnapshot) {
-                    idToko = p0.value.toString()
-                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
-                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                    idKasir = p0.value.toString()
+                    FirebaseDatabase.getInstance().getReference("dataUser/${idKasir}")
+                        .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(p0: DataSnapshot) {
-                                transaction_tv_cafename.text = p0.child("namaToko").value.toString()
-                                transaction_tv_address.text = p0.child("alamat").value.toString()
+                                idToko = p0.value.toString()
+                                FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(p0: DataSnapshot) {
+                                            transaction_tv_cafename.text = p0.child("namaToko").value.toString()
+                                            transaction_tv_address.text = p0.child("alamat").value.toString()
+                                        }
+
+                                        override fun onCancelled(p0: DatabaseError) {
+
+                                        }
+                                    })
                             }
 
                             override fun onCancelled(p0: DatabaseError) {
@@ -73,17 +87,26 @@ class AddTransaction : AppCompatActivity() {
                             }
                         })
                 }
-
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
             })
 
+
+
         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-            .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
+            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     idKasir = p0.value.toString()
-                    transaction_tv_kasir.text = idKasir
+
+                    FirebaseDatabase.getInstance().getReference("dataUser/${idKasir}")
+                        .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                idKasir = p0.value.toString()
+                                transaction_tv_kasir.text = idKasir
+                            }
+
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                        })
                 }
 
                 override fun onCancelled(p0: DatabaseError) {

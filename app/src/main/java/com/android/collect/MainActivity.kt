@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun getDataKasir() {
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+        FirebaseDatabase.getInstance().getReference("dataUser/dataAuth/${fAuth.uid}")
             .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     idKasir = p0.value.toString()

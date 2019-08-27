@@ -36,6 +36,8 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var storageReference: StorageReference
     lateinit var firebaseStorage: FirebaseStorage
     lateinit var filePathImage: Uri
+    var i = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -55,6 +57,7 @@ class RegisterActivity : AppCompatActivity() {
                 fAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
+                            checkID()
                             simpanToFirebase(nama, nomor, email, password)
                             Toast.makeText(this, "Daftar sukses!", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this, Login::class.java))
@@ -125,6 +128,26 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkID() {
+        dbRef = FirebaseDatabase.getInstance().getReference("dataUserAuth/")
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    data.children.indexOfLast {
+                        i = it.key!!.toInt() + 1
+                        true
+                    }
+                }
+                dbRef.child("/${i}").setValue(i)
+            }
+
+        })
+    }
+
     private fun simpanToFirebase(nama: String, nomor: String, email: String, password: String) {
         val uidUser = fAuth.currentUser?.uid
         val uid = helperPref.getUID()
@@ -142,15 +165,8 @@ class RegisterActivity : AppCompatActivity() {
                     }
 
                     override fun onDataChange(data: DataSnapshot) {
-                        var i = 1
-                        if (data.exists()) {
-                            data.children.indexOfLast {
-                                i = it.key!!.toInt() + 1
-                                true
-                            }
-                        }
-                        dbRef.child("/${fAuth.uid}").setValue(fAuth.uid)
-                        dbRef.child("/${fAuth.uid}/id").setValue(i)
+                        dbRef.child("/dataAuth/${fAuth.uid}").setValue(fAuth.uid)
+                        dbRef.child("/dataAuth/${fAuth.uid}/id").setValue(i)
                         dbRef.child("/$i/id").setValue(uidUser)
                         dbRef.child("/$i/nama").setValue(nama)
                         dbRef.child("/$i/email").setValue(email)
