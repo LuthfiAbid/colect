@@ -24,12 +24,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var pref: Pref
     private lateinit var fAuth: FirebaseAuth
     var idToko = ""
+    var idKasir = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fAuth = FirebaseAuth.getInstance()
         pref = Pref(this)
+
+        getDataKasir()
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -37,48 +41,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { view ->
             dialogInputId()
         }
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-            .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(p0: DataSnapshot) {
-                    tv_nama_user.text = p0.value.toString()
-                }
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-            })
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-            .child("profile").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(p0: DataSnapshot) {
-                    Glide.with(this@MainActivity).load(p0.value.toString())
-                        .centerCrop()
-                        .error(R.drawable.ic_launcher_background)
-                        .into(imageViewProfileDrawer)
-                }
-                override fun onCancelled(p0: DatabaseError) {
-                }
-            })
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-            .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(p0: DataSnapshot) {
-                    idToko = p0.value.toString()
-                    FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
-                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(p0: DataSnapshot) {
-                                main_tv_cafename.text = p0.child("namaToko").value.toString()
-                                main_tv_addrescafe.text = p0.child("alamat").value.toString()
-                            }
-
-                            override fun onCancelled(p0: DatabaseError) {
-
-                            }
-                        })
-                }
-
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-            })
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
 
@@ -91,6 +53,55 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+    }
+
+    private fun getDataKasir() {
+        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    idKasir = p0.value.toString()
+                    FirebaseDatabase.getInstance().getReference("dataUser/${idKasir}")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                tv_nama_user.text = p0.child("nama").value.toString()
+                                Glide.with(this@MainActivity).load(p0.child("profile").value.toString())
+                                    .centerCrop()
+                                    .error(R.drawable.ic_launcher_background)
+                                    .into(imageViewProfileDrawer)
+
+                                FirebaseDatabase.getInstance().getReference("dataUser/${idKasir}")
+                                    .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(p0: DataSnapshot) {
+                                            idToko = p0.value.toString()
+                                            FirebaseDatabase.getInstance().getReference("dataToko/${idToko}")
+                                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                                    override fun onDataChange(p0: DataSnapshot) {
+                                                        main_tv_cafename.text = p0.child("namaToko").value.toString()
+                                                        main_tv_addrescafe.text = p0.child("alamat").value.toString()
+                                                    }
+
+                                                    override fun onCancelled(p0: DatabaseError) {
+
+                                                    }
+                                                })
+                                        }
+
+                                        override fun onCancelled(p0: DatabaseError) {
+
+                                        }
+                                    })
+                            }
+
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                        })
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
     }
 
     override fun onBackPressed() {

@@ -2,14 +2,12 @@ package com.android.collect
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.collect.data.Pref
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -37,7 +35,7 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar!!.title = "PROFILE"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+        FirebaseDatabase.getInstance().getReference("dataUser/${pref.getCounterId()}")
             .child("profile").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     Glide.with(this@ProfileActivity).load(p0.value.toString())
@@ -50,7 +48,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 }
             })
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+        FirebaseDatabase.getInstance().getReference("dataUser/${pref.getCounterId()}")
             .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     profileName.text = p0.value.toString()
@@ -60,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 }
             })
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+        FirebaseDatabase.getInstance().getReference("dataUser/${pref.getCounterId()}")
             .child("phone").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     nomor_telepon.text = p0.value.toString()
@@ -70,7 +68,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 }
             })
-        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
+        FirebaseDatabase.getInstance().getReference("dataUser/${pref.getCounterId()}")
             .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     bitmap = TextToImageEncode(p0.value.toString())
@@ -100,9 +98,9 @@ class ProfileActivity : AppCompatActivity() {
             return null
         }
 
-        val bitMatrixWidth = bitMatrix.getWidth()
+        val bitMatrixWidth = bitMatrix.width
 
-        val bitMatrixHeight = bitMatrix.getHeight()
+        val bitMatrixHeight = bitMatrix.height
 
         val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
 

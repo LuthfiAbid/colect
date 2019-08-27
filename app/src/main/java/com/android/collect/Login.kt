@@ -58,40 +58,51 @@ class Login : AppCompatActivity() {
 
                 fAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
-
                         FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-                            .child("role").addListenerForSingleValueEvent(object : ValueEventListener {
+                            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+
                                 override fun onDataChange(p0: DataSnapshot) {
-                                    val role = p0.value.toString()
+                                    val id = p0.value.toString()
 
-                                    if (role == "kasir") {
-                                        FirebaseDatabase.getInstance().getReference("dataUser/${fAuth.uid}")
-                                            .child("nama")
-                                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                                override fun onCancelled(p0: DatabaseError) {
+                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                                        .child("role").addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(p0: DataSnapshot) {
+                                                val role = p0.value.toString()
 
-                                                }
+                                                if (role == "kasir") {
+                                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                                                        .child("nama")
+                                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                                            override fun onCancelled(p0: DatabaseError) {
 
-                                                override fun onDataChange(p0: DataSnapshot) {
-                                                    val user = fAuth.currentUser
-                                                    updateUI(user)
+                                                            }
+
+                                                            override fun onDataChange(p0: DataSnapshot) {
+                                                                val user = fAuth.currentUser
+                                                                updateUI(user)
+                                                                Toast.makeText(
+                                                                    applicationContext,
+                                                                    "Welcome ${p0.value.toString()}!",
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
+                                                            }
+                                                        })
+                                                } else {
                                                     Toast.makeText(
                                                         applicationContext,
-                                                        "Welcome ${p0.value.toString()}!",
+                                                        "Username atau Password salah!",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 }
-                                            })
-                                    } else {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Username atau Password salah!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
+                                            }
 
-                                override fun onCancelled(p0: DatabaseError) {
+                                            override fun onCancelled(p0: DatabaseError) {
+
+                                            }
+                                        })
 
                                 }
                             })

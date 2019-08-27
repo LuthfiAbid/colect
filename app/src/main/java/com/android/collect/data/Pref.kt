@@ -55,11 +55,10 @@ class Pref {
         return sharedSet.getInt(COUNTER_ID, 1)
     }
 
-    fun getCountId(): Int {
-        return sharedSet.getInt(COUNTER_ID, 0)
-    }
-
-
+    //
+//    fun getCountId(): Int {
+//        return sharedSet.getInt(COUNTER_ID, 0)
+//    }
     fun setEmail(email: String) {
         val editor: SharedPreferences.Editor = sharedSet.edit()
         editor.putString("EMAIL", email)
@@ -100,15 +99,5 @@ class Pref {
 
     fun getNama(): String? {
         return sharedSet.getString("nama", "")
-    }
-
-    fun setStatusGoogle(statusGoogle: Boolean) {
-        val edit = sharedSet.edit()
-        edit.putBoolean("sGoogle", statusGoogle)
-        edit.apply()
-    }
-
-    fun cekStatusGoogle(): Boolean? {
-        return sharedSet.getBoolean("sGoogle", false)
     }
 }

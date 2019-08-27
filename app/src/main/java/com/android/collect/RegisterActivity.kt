@@ -7,19 +7,18 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.collect.data.Pref
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_register.*
@@ -58,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
                         if (it.isSuccessful) {
                             simpanToFirebase(nama, nomor, email, password)
                             Toast.makeText(this, "Daftar sukses!", Toast.LENGTH_SHORT).show()
-                            onBackPressed()
+                            startActivity(Intent(this, Login::class.java))
                         } else {
                             Toast.makeText(this, "Daftar gagal!", Toast.LENGTH_SHORT).show()
                         }
@@ -130,24 +129,38 @@ class RegisterActivity : AppCompatActivity() {
         val uidUser = fAuth.currentUser?.uid
         val uid = helperPref.getUID()
         val nameXXX = UUID.randomUUID().toString()
+        val counterId = helperPref.getCounterId()
+
         val storageRef: StorageReference = storageReference
             .child("profile/$uid/$nameXXX.${GetFileExtension(filePathImage)}")
         storageRef.putFile(filePathImage).addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener {
-                dbRef = FirebaseDatabase.getInstance().getReference("dataUser/$uidUser")
-                dbRef.child("/id").setValue(uidUser)
-                dbRef.child("/nama").setValue(nama)
-                dbRef.child("/email").setValue(email)
-                dbRef.child("/password").setValue(password)
-                dbRef.child("/phone").setValue(nomor)
-                dbRef.child("/role").setValue("user")
-                dbRef.child("/profile").setValue(it.toString())
+                dbRef = FirebaseDatabase.getInstance().getReference("dataUser/")
+                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onDataChange(data: DataSnapshot) {
+                        var i = 1
+                        if (data.exists()) {
+                            data.children.indexOfLast {
+                                i = it.key!!.toInt() + 1
+                                true
+                            }
+                        }
+                        dbRef.child("/${fAuth.uid}").setValue(fAuth.uid)
+                        dbRef.child("/${fAuth.uid}/id").setValue(i)
+                        dbRef.child("/$i/id").setValue(uidUser)
+                        dbRef.child("/$i/nama").setValue(nama)
+                        dbRef.child("/$i/email").setValue(email)
+                        dbRef.child("/$i/password").setValue(password)
+                        dbRef.child("/$i/phone").setValue(nomor)
+                        dbRef.child("/$i/role").setValue("user")
+                        dbRef.child("/$i/profile").setValue(it.toString())
+                    }
+                })
             }
-            Toast.makeText(
-                this,
-                "Success Upload",
-                Toast.LENGTH_SHORT
-            ).show()
             progressReg.visibility = View.GONE
         }.addOnFailureListener {
             Log.e("TAG_ERROR", it.message)

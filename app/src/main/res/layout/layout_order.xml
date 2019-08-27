@@ -12,21 +12,24 @@
 
         <EditText
                 android:id="@+id/transaction_et_order_name"
-                android:layout_width="230dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:hint="Order"/>
         <EditText
                 android:id="@+id/transaction_et_order_harga"
-                android:layout_width="120dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
                 android:gravity="center"
-                android:hint="Order"/>
+                android:hint="Price"/>
 
         <EditText
                 android:id="@+id/transaction_et_order_qty"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="Qty"/>
 

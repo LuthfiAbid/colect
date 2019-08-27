@@ -102,7 +102,6 @@ class AddTransaction : AppCompatActivity() {
 
     private fun getAnswer() {
         val options = ArrayList<HashMap<String, String>>()
-
         for (view in order_view) {
             val map = HashMap<String, String>()
             map.put("order", view.findViewById<EditText>(R.id.transaction_et_order_name).text.toString())
@@ -112,7 +111,6 @@ class AddTransaction : AppCompatActivity() {
         }
 
         dbRef = FirebaseDatabase.getInstance().getReference("dataOrder/$idUser")
-
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
                 var i = 1
