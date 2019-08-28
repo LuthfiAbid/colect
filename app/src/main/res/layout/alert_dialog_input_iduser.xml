@@ -10,9 +10,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter the text here"/>
-    <ImageView
-            android:id="@+id/img_barcode_user"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"/>
+
 </LinearLayout>

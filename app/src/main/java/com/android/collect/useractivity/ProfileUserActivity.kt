@@ -20,17 +20,10 @@ import kotlinx.android.synthetic.main.activity_profile.toolbar
 import kotlinx.android.synthetic.main.activity_profile_user.*
 
 class ProfileUserActivity : AppCompatActivity() {
-    internal var bitmap: Bitmap? = null
-    lateinit var dbRef: DatabaseReference
     lateinit var pref: Pref
     private lateinit var fAuth: FirebaseAuth
     var idProfile = ""
-
-    companion object {
-
-        val QRcodeWidth = 500
-    }
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
@@ -45,35 +38,24 @@ class ProfileUserActivity : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot) {
                     idProfile = p0.value.toString()
                     FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
-                        .child("$idProfile").addListenerForSingleValueEvent(object : ValueEventListener {
+                        .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(p0: DataSnapshot) {
-                                bitmap = TextToImageEncode(p0.value.toString())
-                                generationImageView!!.setImageBitmap(bitmap)
+                                profileNameUser.text = p0.value.toString()
                                 FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
-                                    .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
+                                    .child("phone")
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
                                         override fun onDataChange(p0: DataSnapshot) {
-                                            profileNameUser.text = p0.value.toString()
-                                            FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
-                                                .child("phone")
-                                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            nomor_telepon_user.text = p0.value.toString()
+                                            FirebaseDatabase.getInstance()
+                                                .getReference("dataUser/$idProfile")
+                                                .addListenerForSingleValueEvent(object :
+                                                    ValueEventListener {
                                                     override fun onDataChange(p0: DataSnapshot) {
-                                                        nomor_telepon_user.text = p0.value.toString()
-                                                        FirebaseDatabase.getInstance()
-                                                            .getReference("dataUser/$idProfile")
-                                                            .addListenerForSingleValueEvent(object :
-                                                                ValueEventListener {
-                                                                override fun onDataChange(p0: DataSnapshot) {
-                                                                    Glide.with(this@ProfileUserActivity)
-                                                                        .load(p0.child("profile").value.toString())
-                                                                        .centerCrop()
-                                                                        .error(R.drawable.ic_launcher_background)
-                                                                        .into(profilePic)
-                                                                }
-
-                                                                override fun onCancelled(p0: DatabaseError) {
-
-                                                                }
-                                                            })
+                                                        Glide.with(this@ProfileUserActivity)
+                                                            .load(p0.child("profile").value.toString())
+                                                            .centerCrop()
+                                                            .error(R.drawable.ic_launcher_background)
+                                                            .into(profilePic)
                                                     }
 
                                                     override fun onCancelled(p0: DatabaseError) {
