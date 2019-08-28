@@ -1,4 +1,4 @@
-package com.android.collect
+package com.android.collect.kasiractivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.android.collect.R
 import com.android.collect.data.Pref
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,7 +48,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navView: NavigationView = findViewById(R.id.nav_view)
 
         val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -68,7 +71,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     .centerCrop()
                                     .error(R.drawable.ic_launcher_background)
                                     .into(imageViewProfileDrawer)
-
                                 FirebaseDatabase.getInstance().getReference("dataUser/${idKasir}")
                                     .child("toko").addListenerForSingleValueEvent(object : ValueEventListener {
                                         override fun onDataChange(p0: DataSnapshot) {
@@ -126,10 +128,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_profile-> {
-                startActivity(Intent(this,ProfileActivity::class.java))
+            R.id.nav_profile -> {
+                startActivity(Intent(this, ProfileActivity::class.java))
             }
-            R.id.nav_saldo-> {
+            R.id.nav_saldo -> {
 
             }
             R.id.nav_logout -> {

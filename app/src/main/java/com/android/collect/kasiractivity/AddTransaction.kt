@@ -1,4 +1,4 @@
-package com.android.collect
+package com.android.collect.kasiractivity
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.android.collect.R
 import com.android.collect.data.Pref
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

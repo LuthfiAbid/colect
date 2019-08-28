@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarEdit"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+        <LinearLayout
+                android:background="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/linearLayout2" app:layout_constraintHorizontal_bias="0.0"
+                android:orientation="horizontal"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_gravity="center"
+                android:id="@+id/img_placeholder_EditProfile_user"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                tools:src="@drawable/profile"
+                android:src="@drawable/profile"
+                android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.497" app:layout_constraintVertical_bias="1.0"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressDownload"
+            android:visibility="gone"
+    />
+    <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:paddingStart="20dp"
+                android:background="@drawable/input_round"
+                android:textSize="18sp"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:hint="Nama"
+                android:id="@+id/et_editnama_user"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:paddingStart="20dp"
+                android:background="@drawable/input_round"
+                android:textSize="18sp"
+                android:inputType="date"
+                android:hint="Nomor Hp"
+                android:paddingHorizontal="10dp"
+                android:id="@+id/et_editnohp_user"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+    </LinearLayout>
+    <Button
+            android:background="#F1B341"
+            android:textColor="@android:color/white"
+            android:layout_marginVertical="40dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="Save"
+            android:textStyle="bold"
+            android:id="@+id/btn_save_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"/>
+
+</LinearLayout>

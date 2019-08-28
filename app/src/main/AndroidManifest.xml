@@ -16,19 +16,26 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainUserActivity">
-        </activity>
-        <activity android:name=".FinalTransaction">
-        </activity>
-        <activity android:name=".AddTransaction">
+        <activity android:name=".useractivity.EditUserProfile">
         </activity>
         <activity
-                android:name=".EditProfile"
-                android:parentActivityName=".ProfileActivity">
+                android:name=".useractivity.ProfileUserActivity"
+                android:parentActivityName=".useractivity.MainUserActivity">
         </activity>
         <activity
-                android:name=".ProfileActivity"
-                android:parentActivityName=".MainActivity">
+                android:name=".useractivity.MainUserActivity">
+        </activity>
+        <activity android:name=".kasiractivity.FinalTransaction">
+        </activity>
+        <activity android:name=".kasiractivity.AddTransaction">
+        </activity>
+        <activity
+                android:name=".kasiractivity.EditProfile"
+                android:parentActivityName=".kasiractivity.ProfileActivity">
+        </activity>
+        <activity
+                android:name=".kasiractivity.ProfileActivity"
+                android:parentActivityName=".kasiractivity.MainActivity">
         </activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -40,10 +47,10 @@
         <activity android:name=".RegisterActivity">
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".kasiractivity.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".kasiractivity.Login">
         </activity>
     </application>
 

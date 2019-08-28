@@ -1,10 +1,11 @@
-package com.android.collect
+package com.android.collect.kasiractivity
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.collect.R
 import com.android.collect.data.FinalOrderAdapter
 import com.android.collect.data.FinalOrderModel
 import com.google.firebase.database.DataSnapshot
