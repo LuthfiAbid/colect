@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun dialogInputId() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
-        builder.setTitle("With EditText")
+        builder.setTitle("Masukkan Id Pelanggan")
         val dialogLayout = inflater.inflate(R.layout.alert_dialog_input_iduser, null)
         val editText = dialogLayout.findViewById<EditText>(R.id.editText)
         builder.setView(dialogLayout)

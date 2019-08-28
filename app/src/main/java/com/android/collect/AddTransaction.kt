@@ -169,7 +169,7 @@ class AddTransaction : AppCompatActivity() {
     fun dialogInputCashback() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
-        builder.setTitle("With EditText")
+        builder.setTitle("Masukkan CashBack")
         val dialogLayout = inflater.inflate(R.layout.alert_dialog_input_iduser, null)
         val editText = dialogLayout.findViewById<EditText>(R.id.editText)
         builder.setView(dialogLayout)
