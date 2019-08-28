@@ -58,72 +58,7 @@ class Login : AppCompatActivity() {
 
                 fAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
-                        FirebaseDatabase.getInstance().getReference("dataUser/dataAuth/${fAuth.uid}")
-                            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onCancelled(p0: DatabaseError) {
-                                    
-                                }
-
-                                override fun onDataChange(p0: DataSnapshot) {
-                                    val id = p0.value.toString()
-
-                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
-                                        .child("role").addListenerForSingleValueEvent(object : ValueEventListener {
-                                            override fun onDataChange(p0: DataSnapshot) {
-                                                val role = p0.value.toString()
-
-                                                if (role == "kasir") {
-                                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
-                                                        .child("nama")
-                                                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                                                            override fun onCancelled(p0: DatabaseError) {
-
-                                                            }
-
-                                                            override fun onDataChange(p0: DataSnapshot) {
-                                                                val user = fAuth.currentUser
-                                                                updateUI(user)
-                                                                Toast.makeText(
-                                                                    applicationContext,
-                                                                    "Welcome ${p0.value.toString()}!",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
-                                                        })
-                                                } else if (role == "user") {
-                                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
-                                                        .child("nama")
-                                                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                                                            override fun onCancelled(p0: DatabaseError) {
-
-                                                            }
-
-                                                            override fun onDataChange(p0: DataSnapshot) {
-                                                                val user = fAuth.currentUser
-                                                                updateUIUser(user)
-                                                                Toast.makeText(
-                                                                    applicationContext,
-                                                                    "Welcome ${p0.value.toString()}!",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
-                                                        })
-                                                } else {
-                                                    Toast.makeText(
-                                                        applicationContext,
-                                                        "Username atau Password salah!",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                            }
-
-                                            override fun onCancelled(p0: DatabaseError) {
-
-                                            }
-                                        })
-
-                                }
-                            })
+                        login()
                     }.addOnFailureListener {
                         Toast.makeText(
                             this,
@@ -139,6 +74,74 @@ class Login : AppCompatActivity() {
                 ).show()
             }
         }
+    }
+
+    fun login() {
+        FirebaseDatabase.getInstance().getReference("dataUser/dataAuth/${fAuth.uid}")
+            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val id = p0.value.toString()
+
+                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                        .child("role").addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                val role = p0.value.toString()
+
+                                if (role == "kasir") {
+                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                                        .child("nama")
+                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+
+                                            }
+
+                                            override fun onDataChange(p0: DataSnapshot) {
+                                                val user = fAuth.currentUser
+                                                updateUI(user)
+                                                Toast.makeText(
+                                                    applicationContext,
+                                                    "Welcome ${p0.value.toString()}!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        })
+                                } else if (role == "user") {
+                                    FirebaseDatabase.getInstance().getReference("dataUser/${id}")
+                                        .child("nama")
+                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+
+                                            }
+
+                                            override fun onDataChange(p0: DataSnapshot) {
+                                                val user = fAuth.currentUser
+                                                updateUIUser(user)
+                                                Toast.makeText(
+                                                    applicationContext,
+                                                    "Welcome ${p0.value.toString()}!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        })
+                                } else {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Username atau Password salah!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+                        })
+
+                }
+            })
     }
 
     fun updateUI(user: FirebaseUser?) {
