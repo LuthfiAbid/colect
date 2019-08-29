@@ -9,12 +9,14 @@ import com.android.collect.data.Pref
 import com.android.collect.kasiractivity.ProfileActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import kotlinx.android.synthetic.main.activity_profile.generationImageView
 import kotlinx.android.synthetic.main.activity_profile.profilePic
 import kotlinx.android.synthetic.main.activity_profile.toolbar
 import kotlinx.android.synthetic.main.activity_profile_user.*
@@ -23,7 +25,7 @@ class ProfileUserActivity : AppCompatActivity() {
     lateinit var pref: Pref
     private lateinit var fAuth: FirebaseAuth
     var idProfile = ""
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)

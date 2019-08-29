@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -29,13 +28,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_profile.generationImageView
-import kotlinx.android.synthetic.main.activity_profile.profilePic
-import kotlinx.android.synthetic.main.activity_profile_user.*
-import kotlinx.android.synthetic.main.alert_dialog_input_iduser.view.*
 import kotlinx.android.synthetic.main.nav_header_main_user.*
-import java.util.*
 
 class MainUserActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var pref: Pref
@@ -156,64 +149,55 @@ class MainUserActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
                 override fun onDataChange(p0: DataSnapshot) {
                     idProfile = p0.value.toString()
-                    FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
-                        .child("$idProfile").addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onCancelled(p0: DatabaseError) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
+                    bitmap = TextToImageEncode(idProfile)
+                    val builder = AlertDialog.Builder(this@MainUserActivity)
+                    val inflater = layoutInflater
+                    builder.setTitle("Scan me!")
+                    val dialogLayout = inflater.inflate(R.layout.alert_dialog_barcode, null)
+                    val barcode = dialogLayout.findViewById<ImageView>(R.id.img_barcode_user)
+                    builder.setView(dialogLayout)
+                    builder.create().show()
+                    barcode.setImageBitmap(bitmap)
+                }
 
-                            override fun onDataChange(p0: DataSnapshot) {
-                                bitmap = TextToImageEncode(p0.value.toString())
-                                val builder = AlertDialog.Builder(this@MainUserActivity)
-                                val inflater = layoutInflater
-                                builder.setTitle("Scan me!")
-                                val dialogLayout = inflater.inflate(R.layout.alert_dialog_barcode, null)
-                                val barcode = dialogLayout.findViewById<ImageView>(R.id.img_barcode_user)
-                                builder.setView(dialogLayout)
-                                builder.create().show()
-                                barcode.setImageBitmap(bitmap)
-                            }
+                @Throws(WriterException::class)
+                private fun TextToImageEncode(Value: String): Bitmap? {
+                    val bitMatrix: BitMatrix
+                    try {
+                        bitMatrix = MultiFormatWriter().encode(
+                            Value,
+                            BarcodeFormat.QR_CODE,
+                            ProfileActivity.QRcodeWidth,
+                            ProfileActivity.QRcodeWidth, null
+                        )
 
-                            @Throws(WriterException::class)
-                            private fun TextToImageEncode(Value: String): Bitmap? {
-                                val bitMatrix: BitMatrix
-                                try {
-                                    bitMatrix = MultiFormatWriter().encode(
-                                        Value,
-                                        BarcodeFormat.QR_CODE,
-                                        ProfileActivity.QRcodeWidth,
-                                        ProfileActivity.QRcodeWidth, null
-                                    )
+                    } catch (Illegalargumentexception: IllegalArgumentException) {
 
-                                } catch (Illegalargumentexception: IllegalArgumentException) {
+                        return null
+                    }
 
-                                    return null
-                                }
+                    val bitMatrixWidth = bitMatrix.width
 
-                                val bitMatrixWidth = bitMatrix.width
+                    val bitMatrixHeight = bitMatrix.height
 
-                                val bitMatrixHeight = bitMatrix.height
+                    val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
 
-                                val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
+                    for (y in 0 until bitMatrixHeight) {
+                        val offset = y * bitMatrixWidth
 
-                                for (y in 0 until bitMatrixHeight) {
-                                    val offset = y * bitMatrixWidth
+                        for (x in 0 until bitMatrixWidth) {
 
-                                    for (x in 0 until bitMatrixWidth) {
+                            pixels[offset + x] = if (bitMatrix.get(x, y))
+                                resources.getColor(R.color.black)
+                            else
+                                resources.getColor(R.color.white)
+                        }
+                    }
+                    val bitmap =
+                        Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
 
-                                        pixels[offset + x] = if (bitMatrix.get(x, y))
-                                            resources.getColor(R.color.black)
-                                        else
-                                            resources.getColor(R.color.white)
-                                    }
-                                }
-                                val bitmap =
-                                    Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
-
-                                bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight)
-                                return bitmap
-                            }
-                        })
+                    bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight)
+                    return bitmap
                 }
             })
     }

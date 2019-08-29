@@ -3,6 +3,7 @@ package com.android.collect.kasiractivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -43,8 +44,9 @@ class AddTransaction : AppCompatActivity() {
         dateOrder = formatted
 
         if (intent.extras != null) {
-            idUser = intent.getStringExtra("idUser")
+            idUser = intent.getStringExtra("barcode")
             transaction_tv_date.text = formatted
+            Log.d("iduser", idUser)
         } else {
             Toast.makeText(this, "Input User id!!", Toast.LENGTH_SHORT).show()
             onBackPressed()
@@ -156,6 +158,7 @@ class AddTransaction : AppCompatActivity() {
                 intent.putExtra("idUser", idUser)
                 intent.putExtra("idToko", idToko)
                 startActivity(intent)
+                finish()
             }
 
             override fun onCancelled(p0: DatabaseError) {

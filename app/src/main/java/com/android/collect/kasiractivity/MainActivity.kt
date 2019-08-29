@@ -3,9 +3,8 @@ package com.android.collect.kasiractivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -17,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fAuth: FirebaseAuth
     var idToko = ""
     var idKasir = ""
+    var scannedResult: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,17 +152,50 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun dialogInputId() {
-        val builder = AlertDialog.Builder(this)
-        val inflater = layoutInflater
-        builder.setTitle("Masukkan Id Pelanggan")
-        val dialogLayout = inflater.inflate(R.layout.alert_dialog_input_iduser, null)
-        val editText = dialogLayout.findViewById<EditText>(R.id.editText)
-        builder.setView(dialogLayout)
-        builder.setPositiveButton("OK") { dialogInterface, i ->
-            val intent = Intent(this, AddTransaction::class.java)
-            intent.putExtra("idUser", editText.text.toString())
-            startActivity(intent)
+        run {
+            IntentIntegrator(this@MainActivity).initiateScan()
+//            intent.putExtra("barcode",scannedResult)
         }
-        builder.show()
+//        val builder = AlertDialog.Builder(this)
+//        val inflater = layoutInflater
+//        builder.setTitle("Masukkan Id Pelanggan")
+//        val dialogLayout = inflater.inflate(R.layout.alert_dialog_input_iduser, null)
+//        val editText = dialogLayout.findViewById<EditText>(R.id.editText)
+//        builder.setView(dialogLayout)
+//        builder.setPositiveButton("OK") { dialogInterface, i ->
+//            val intent = Intent(this, AddTransaction::class.java)
+//            intent.putExtra("idUser", editText.text.toString())
+//            startActivity(intent)
+//        }
+//        builder.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents != null) {
+                val mIntent = Intent(this, AddTransaction::class.java)
+                mIntent.putExtra("barcode", result.contents)
+                startActivity(mIntent)
+                scannedResult = result.contents
+            } else {
+                Toast.makeText(this, "Scan Failed!", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+            Toast.makeText(this, "Scan Failed!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putString("scannedResult", scannedResult)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.let {
+            scannedResult = it.getString("scannedResult")
+        }
     }
 }
