@@ -19,6 +19,7 @@ class FinalTransaction : AppCompatActivity() {
     var idTransaction = 0
     var idUser = ""
     var idToko = ""
+    var total = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,11 +96,12 @@ class FinalTransaction : AppCompatActivity() {
                                 data.child("qty").value.toString()
                             )
                         )
+                        total += data.child("price").value.toString().toInt() * data.child("qty").value.toString().toInt()
+                        total_price.text = "$total"
 //                        val model = FinalOrderModel(data.child("order"))
                     }
                     rc_view_order.adapter = FinalOrderAdapter(datas, this@FinalTransaction)
                 }
-
             })
     }
 }
