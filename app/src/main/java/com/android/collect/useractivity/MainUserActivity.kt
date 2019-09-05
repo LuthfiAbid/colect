@@ -3,6 +3,8 @@ package com.android.collect.useractivity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
+import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -12,29 +14,36 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.collect.Login
 import com.android.collect.R
+import com.android.collect.data.OrderAdapter
 import com.android.collect.data.Pref
-import com.android.collect.kasiractivity.Login
 import com.android.collect.kasiractivity.ProfileActivity
+import com.android.collect.model.HeadOrderModel
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import kotlinx.android.synthetic.main.nav_header_main_user.*
+import java.util.*
 
 class MainUserActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var pref: Pref
+    lateinit var dbRef: DatabaseReference
     private lateinit var fAuth: FirebaseAuth
     var idProfile = ""
     internal var bitmap: Bitmap? = null
+    private var recyclerView: RecyclerView? = null
+    private var list: MutableList<HeadOrderModel> = ArrayList()
+    private var orderAdapter: OrderAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,47 +53,76 @@ class MainUserActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         pref = Pref(this)
         setSupportActionBar(toolbar)
 
+        var linearLayoutManager = LinearLayoutManager(this)
+        recyclerView = findViewById(R.id.rcOrder)
+        recyclerView!!.layoutManager = linearLayoutManager
+        recyclerView!!.setHasFixedSize(true)
+
+
         FirebaseDatabase.getInstance().getReference("dataUser/dataAuth/${fAuth.uid}")
-            .child("id").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(p0: DataSnapshot) {
-                    idProfile = p0.value.toString()
-                    FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
-                        .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(p0: DataSnapshot) {
-                                tv_nav_user.text = p0.value.toString()
-                                FirebaseDatabase.getInstance()
-                                    .getReference("dataUser/$idProfile")
-                                    .addListenerForSingleValueEvent(object :
-                                        ValueEventListener {
-                                        override fun onDataChange(p0: DataSnapshot) {
-                                            Glide.with(this@MainUserActivity)
-                                                .load(p0.child("profile").value.toString())
-                                                .centerCrop()
-                                                .error(R.drawable.ic_launcher_background)
-                                                .into(imageViewUser)
-                                        }
+            .child("id").addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        idProfile = p0.value.toString()
+                        FirebaseDatabase.getInstance().getReference("dataUser/$idProfile")
+                            .child("nama").addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    tv_nav_user.text = p0.value.toString()
+                                    FirebaseDatabase.getInstance()
+                                        .getReference("dataUser/$idProfile")
+                                        .addListenerForSingleValueEvent(object :
+                                            ValueEventListener {
+                                            override fun onDataChange(p0: DataSnapshot) {
+                                                Glide.with(this@MainUserActivity)
+                                                    .load(p0.child("profile").value.toString())
+                                                    .centerCrop()
+                                                    .error(R.drawable.ic_launcher_background)
+                                                    .into(imageViewUser)
+                                                dbRef =
+                                                    FirebaseDatabase.getInstance().getReference("dataOrder/$idProfile")
+                                                dbRef.addValueEventListener(object : ValueEventListener {
+                                                    override fun onDataChange(data: DataSnapshot) {
+                                                        list = ArrayList()
+                                                        for (dataSnapshot in data.children) {
+                                                            val addDataAll =
+                                                                dataSnapshot.getValue(HeadOrderModel::class.java)
+                                                            list.add(addDataAll!!)
+                                                            e("c", addDataAll.namaKasir)
+                                                        }
+                                                        orderAdapter = OrderAdapter(this@MainUserActivity, list)
+                                                        recyclerView!!.adapter = orderAdapter
+                                                    }
 
-                                        override fun onCancelled(p0: DatabaseError) {
+                                                    override fun onCancelled(p0: DatabaseError) {
+                                                        Log.e(
+                                                            "TAG_ERROR", p0.message
+                                                        )
+                                                    }
+                                                })
+                                            }
 
-                                        }
-                                    })
-                            }
+                                            override fun onCancelled(p0: DatabaseError) {
 
-                            override fun onCancelled(p0: DatabaseError) {
+                                            }
+                                        })
+                                }
 
-                            }
-                        })
-                }
+                                override fun onCancelled(p0: DatabaseError) {
 
-                override fun onCancelled(p0: DatabaseError) {
+                                }
+                            })
+                    }
 
-                }
-            })
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+                })
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             dialogInputId()
         }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -129,7 +167,7 @@ class MainUserActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(Intent(this, ProfileUserActivity::class.java))
             }
             R.id.nav_logout_user -> {
-                pref.setStatus(false)
+                pref.setStatusUser(false)
                 fAuth.signOut()
                 startActivity(
                     Intent(this, Login::class.java)

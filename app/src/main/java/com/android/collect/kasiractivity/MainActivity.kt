@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.android.collect.Login
 import com.android.collect.R
 import com.android.collect.data.Pref
 import com.bumptech.glide.Glide

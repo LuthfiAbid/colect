@@ -7,7 +7,7 @@ class Pref {
     val USER_ID = "uidx"
     val COUNTER_ID = "counter"
     val statusLogin = "STATUS"
-    val statusUserSlur = "STATUS_USER"
+    val statusUser = "STATUS_USER"
     val dest = "DESTINATION"
 
 
@@ -29,26 +29,27 @@ class Pref {
     fun getUID(): String? {
         return sharedSet.getString(USER_ID, " ")
     }
-    fun saveCounterId(counter: Int) {
-        val edit = sharedSet.edit()
-        edit.putInt(COUNTER_ID, counter)
-        edit.apply()
-    }
 
     fun getCounterId(): Int {
         return sharedSet.getInt(COUNTER_ID, 1)
     }
-    //
-//    fun getCountId(): Int {
-//        return sharedSet.getInt(COUNTER_ID, 0)
-//    }
+
     fun setStatus(status: Boolean) {
         val edit = sharedSet.edit()
         edit.putBoolean(statusLogin, status)
         edit.apply()
     }
 
+    fun setStatusUser(status: Boolean) {
+        val edit = sharedSet.edit()
+        edit.putBoolean(statusUser, status)
+        edit.apply()
+    }
     fun cekStatus(): Boolean? {
         return sharedSet.getBoolean(statusLogin, false)
+    }
+
+    fun cekStatusUser(): Boolean? {
+        return sharedSet.getBoolean(statusUser, false)
     }
 }

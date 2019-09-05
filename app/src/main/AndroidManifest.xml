@@ -11,21 +11,23 @@
 
     <application
             android:name=".KtAplication"
-            android:hardwareAccelerated="true"
             android:allowBackup="true"
+            android:hardwareAccelerated="true"
             android:icon="@drawable/icon"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".useractivity.ReceiptActivity"
+                  android:parentActivityName=".useractivity.MainUserActivity">
+        </activity>
         <activity android:name=".useractivity.EditUserProfile">
         </activity>
         <activity
                 android:name=".useractivity.ProfileUserActivity"
                 android:parentActivityName=".useractivity.MainUserActivity">
         </activity>
-        <activity
-                android:name=".useractivity.MainUserActivity">
+        <activity android:name=".useractivity.MainUserActivity">
         </activity>
         <activity android:name=".kasiractivity.FinalTransaction">
         </activity>
@@ -52,7 +54,7 @@
                 android:name=".kasiractivity.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".kasiractivity.Login">
+        <activity android:name=".Login">
         </activity>
     </application>
 

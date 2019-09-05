@@ -30,6 +30,8 @@ class AddTransaction : AppCompatActivity() {
     var dateOrder = ""
     var cashback = ""
     var idToko = ""
+    var namaToko = ""
+    var total = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +79,7 @@ class AddTransaction : AppCompatActivity() {
                                         override fun onDataChange(p0: DataSnapshot) {
                                             transaction_tv_cafename.text = p0.child("namaToko").value.toString()
                                             transaction_tv_address.text = p0.child("alamat").value.toString()
+                                            namaToko = p0.child("namaToko").value.toString()
                                         }
 
                                         override fun onCancelled(p0: DatabaseError) {
@@ -135,6 +138,9 @@ class AddTransaction : AppCompatActivity() {
             map.put("qty", view.findViewById<EditText>(R.id.transaction_et_order_qty).text.toString())
             options.add(map)
         }
+        for (data in options) {
+            total += data.get("price")!!.toInt() * data.get("qty")!!.toInt()
+        }
 
         dbRef = FirebaseDatabase.getInstance().getReference("dataOrder/$idUser")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -150,6 +156,9 @@ class AddTransaction : AppCompatActivity() {
                 dbRef.child("/$i/idUser").setValue(idUser)
                 dbRef.child("/$i/tanggal").setValue(dateOrder)
                 dbRef.child("/$i/cashback").setValue(cashback)
+                dbRef.child("/$i/idToko").setValue(idToko)
+                dbRef.child("/$i/namaToko").setValue(namaToko)
+                dbRef.child("/$i/total").setValue(total)
                 dbRef.child("/$i/detailOrder").setValue(options)
                 dbRef.push()
 

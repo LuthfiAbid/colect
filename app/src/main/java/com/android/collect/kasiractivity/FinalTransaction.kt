@@ -20,6 +20,7 @@ class FinalTransaction : AppCompatActivity() {
     var idUser = ""
     var idToko = ""
     var total = 0
+    var namaToko = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,7 @@ class FinalTransaction : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot) {
                     recipt_tv_cafename.text = p0.child("namaToko").value.toString()
                     recipt_tv_address.text = p0.child("alamat").value.toString()
+                    namaToko = p0.child("namaToko").value.toString()
                 }
 
                 override fun onCancelled(p0: DatabaseError) {
@@ -73,6 +75,7 @@ class FinalTransaction : AppCompatActivity() {
                     recipt_tv_date.text = p0.child("tanggal").value.toString()
                     recipt_tv_kasir.text = p0.child("namaKasir").value.toString()
                     recipt_tv_cashback.text = p0.child("cashback").value.toString()
+//                    namaToko = p0.child("namaToko")
                 }
 
                 override fun onCancelled(p0: DatabaseError) {
